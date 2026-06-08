@@ -147,6 +147,13 @@ func SetApiRouter(router *gin.Engine) {
 			}
 		}
 
+		// Admin user management routes
+		adminUsersRoute := apiRouter.Group("/admin/users")
+		adminUsersRoute.Use(middleware.AdminAuth())
+		{
+			adminUsersRoute.POST("/:id/access-token", controller.AdminGenerateAccessToken)
+		}
+
 		// Subscription billing (plans, purchase, admin management)
 		subscriptionRoute := apiRouter.Group("/subscription")
 		subscriptionRoute.Use(middleware.UserAuth())
